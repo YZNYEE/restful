@@ -9,27 +9,22 @@ import (
 )
 
 //往图书馆添加一本书：路径/book/add
-func AddBook(ctx *gin.Context) {
-	//bookname := ctx.PostForm("bookname")
-	//num := ctx.PostForm("num")
-	//TODO:加书逻辑
-}
 
 //展示图书馆的图书状况：/book/show
 func ShowBook(ctx *gin.Context) {
-	page := ctx.Param("page")
+	page := ctx.Query("page")
 	//TODO:展示逻辑
 	p, _ := strconv.Atoi(page)
 	bs := service.GetBooks(p)
-	ctx.HTML(200, "books.html", gin.H{
+	ctx.JSON(200, gin.H{
 		"books": bs,
 	})
 
 }
 
 func FindBook(ctx *gin.Context) {
-	bookname := ctx.Query("name")
-	test := ctx.Query("test")
+	test := ctx.Query("bookname")
+	bookname := test
 	fmt.Println("test:", test)
 	fmt.Println("!!!!!!!!!!!!!!!!!!!!!", bookname)
 	bs := dao.Findbyname(bookname)
@@ -65,8 +60,18 @@ func Findcanborrowedbook(ctx *gin.Context) {
 	}
 }
 
+func Add(ctx *gin.Context) {
+	bookname := ctx.PostForm("bookname")
+	dao.AddBook(bookname)
+	ctx.JSON(200, gin.H{
+		"msg": "添加成功",
+	})
+}
+
 func Initbookrouter(engine *gin.Engine) {
 	g := engine.Group("/book")
 	g.GET("/search", FindBook)
 	g.GET("/borrow", Findcanborrowedbook)
+	g.POST("/add", Add)
+	g.GET("/show", ShowBook)
 }
