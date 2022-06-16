@@ -10,7 +10,7 @@
 提供对数据库的访问接口
 1.表users、books和records
 #### Service
-提供路由所需的服务
+提供路由所需的业务服务
 #### controller
 提供路由控制
 #### entity
