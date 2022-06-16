@@ -1,0 +1,12 @@
+<html>
+<body>
+
+<div>
+    {{ range $i,$v := .books}}
+    <p>
+        <span>{{$i}}</span> : <span> {{$v.Bookname}}</span>
+    </p>
+    {{end}}
+</div>
+</body>
+</html>
