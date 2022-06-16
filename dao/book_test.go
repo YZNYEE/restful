@@ -42,3 +42,8 @@ func TestFindbyname(t *testing.T) {
 	fmt.Println(len(b))
 
 }
+
+func TestFindbynameandstatus(t *testing.T) {
+	b := Findbynameandstatus("Y%1Y", true)
+	fmt.Println(len(b))
+}

@@ -41,6 +41,12 @@ func Findbyname(bookname string) entity.BookSlice {
 	return bs
 }
 
+func Findbynameandstatus(bookname string, status bool) entity.BookSlice {
+	bs := make(entity.BookSlice, 0)
+	BookDB.Where("bookname=? and status=?", bookname, status).Find(&bs)
+	return bs
+}
+
 func init() {
 	BookDB, _ = openDatabase("root", "123456", "restful", "mysql")
 

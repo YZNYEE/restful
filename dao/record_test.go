@@ -14,5 +14,10 @@ func TestFindlatestamonth(t *testing.T) {
 	for _, v := range r {
 		fmt.Println(v)
 	}
-
+}
+func TestFindbyuser(t *testing.T) {
+	r := Findbyuser(1)
+	for _, v := range r {
+		fmt.Println(v)
+	}
 }

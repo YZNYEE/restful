@@ -10,8 +10,8 @@ import (
 //登入：路径/users/login
 func Login(ctx *gin.Context) {
 	fmt.Println("!!!!!!!!!!!!!!!!!!!!!!!!!!")
-	name := ctx.Query("username")
-	password := ctx.Query("password")
+	name := ctx.PostForm("username")
+	password := ctx.PostForm("password")
 	//TODO:认证
 	fmt.Println("name", name, "password", password)
 	err := service.Check(name, password)
@@ -28,7 +28,7 @@ func Login(ctx *gin.Context) {
 
 func Return(ctx *gin.Context) {
 	fmt.Println("!!!!!!!!!!!!!!!!!!!!")
-	bookid := ctx.Query("bookid")
+	bookid := ctx.PostForm("bookid")
 	bid, _ := strconv.Atoi(bookid)
 	err := service.ReturnBook(bid)
 	if err == nil {
@@ -42,23 +42,16 @@ func Return(ctx *gin.Context) {
 	}
 }
 
-func UserAction(ctx *gin.Context) {
-	action := ctx.Param("action")
-	fmt.Println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!:", action)
-	switch action {
-	case "/login":
-		Login(ctx)
-	case "/register":
-		Register(ctx)
-	case "/borrow":
-		Borrow(ctx)
-	case "/return":
-		Return(ctx)
-	}
+func Inituserroute(engine *gin.Engine) {
+	g := engine.Group("/users")
+	g.GET("/login", Login)
+	g.POST("/register", Register)
+	g.POST("/borrow", Borrow)
+	g.POST("/return", Return)
 }
 func Borrow(ctx *gin.Context) {
-	bookid := ctx.Query("bookid")
-	userid := ctx.Query("userid")
+	bookid := ctx.PostForm("bookid")
+	userid := ctx.PostForm("userid")
 	days := ctx.Query("days")
 	bid, _ := strconv.Atoi(bookid)
 	uid, _ := strconv.Atoi(userid)
@@ -77,9 +70,9 @@ func Borrow(ctx *gin.Context) {
 
 //注册：/users/register
 func Register(ctx *gin.Context) {
-	name := ctx.Query("username")
-	password := ctx.Query("password")
-	email := ctx.Query("email")
+	name := ctx.PostForm("username")
+	password := ctx.PostForm("password")
+	email := ctx.PostForm("email")
 	//TODO:提交信息
 	err := service.Register(name, password, email)
 	if err == nil {
