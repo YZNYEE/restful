@@ -11,6 +11,7 @@ func main() {
 	r.LoadHTMLGlob("templates/*")
 	controller.Inituserroute(r)
 	controller.Initbookrouter(r)
+	controller.Initrecordrouter(r)
 	r.Run(":80")
 
 }

@@ -18,19 +18,30 @@ func AddRecord(bookid, userid int, days int) error {
 	res := RecordDB.Create(&r)
 	return res.Error
 }
-
-func Findlatestamonth() entity.RecordSlice {
+func Findbydayandmonth(day, month int) entity.RecordSlice {
 	r := make(entity.RecordSlice, 0)
-	t := time.Now().AddDate(0, -1, 0)
+	t := time.Now().AddDate(0, -month, -day)
 	RecordDB.Where("borrow>=?", t).Find(&r)
 	return r
 }
 
 func Findbyuser(userid int) entity.RecordSlice {
 	r := make(entity.RecordSlice, 0)
-	RecordDB.Table("records").Select("*").Joins("left join books on records.bookid=books.id").Where("userid=? and books.status=?", userid, true).Find(&r)
+	RecordDB.Table("records").Select("*").Where("userid=?", userid).Find(&r)
 	return r
 
+}
+
+func FindRecordstoReturn(userid int) entity.RecordSlice {
+	r := make(entity.RecordSlice, 0)
+	RecordDB.Table("records").Joins("left join books on records.bookid=books.id").Where("records.userid=? and books.status=?", userid, true).Find(&r)
+	return r
+}
+
+func FindAllRecordstoReturns() entity.RecordSlice {
+	r := make(entity.RecordSlice, 0)
+	RecordDB.Table("records").Joins("left join books on records.bookid=books.id").Where("books.status=?", true).Find(&r)
+	return r
 }
 
 func init() {

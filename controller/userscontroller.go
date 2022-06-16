@@ -42,11 +42,16 @@ func Return(ctx *gin.Context) {
 	}
 }
 
+//用户路由
 func Inituserroute(engine *gin.Engine) {
 	g := engine.Group("/users")
+	//登入
 	g.GET("/login", Login)
+	//注册
 	g.POST("/register", Register)
+	//借书
 	g.POST("/borrow", Borrow)
+	//还书
 	g.POST("/return", Return)
 }
 func Borrow(ctx *gin.Context) {

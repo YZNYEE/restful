@@ -68,10 +68,15 @@ func Add(ctx *gin.Context) {
 	})
 }
 
+//书籍路由
 func Initbookrouter(engine *gin.Engine) {
 	g := engine.Group("/book")
+	//查询书籍
 	g.GET("/search", FindBook)
+	//查询可借书籍
 	g.GET("/borrow", Findcanborrowedbook)
+	//添加书籍
 	g.POST("/add", Add)
+	//展示书籍
 	g.GET("/show", ShowBook)
 }
